@@ -26,9 +26,9 @@ class Screen1 extends Component {
       <ScrollView>
         <View style={{ width: '100%', height: 700 }}/>
         <TouchableOpacity activeOpacity={1} onPress={this.goBack}>
-          <ShareView name="back" screenIndex={screenIndex}>
+          {/* <ShareView name="back" screenIndex={screenIndex}> */}
             <Text style={{ marginBottom: 200, fontSize: 30 }}> back </Text>
-          </ShareView>
+          {/* </ShareView> */}
         </TouchableOpacity>
         <TouchableOpacity activeOpacity={1} onPress={this.nextSceen}>
           <ShareView name="text" screenIndex={screenIndex}>

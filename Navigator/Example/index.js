@@ -7,6 +7,11 @@ import Screen2 from './Screens/Screen2'
 const StackShare = createStackShared({
   Screen1,
   Screen2,
+}, {
+  headerMode: 'none',
+  navigationOptions: {
+    abc: 'aaa'
+  }
 })
 
 export default createAppContainer(StackShare)

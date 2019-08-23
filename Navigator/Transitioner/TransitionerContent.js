@@ -27,9 +27,9 @@ class TransitionerContent extends Component {
     }
   }
 
-  componentDidUpdate() {
-    this.updateMeasure()
-  }
+  // componentDidUpdate() {
+  //   this.updateMeasure()
+  // }
 
 
   registerSharedView = async (name, index, nodeHandle, children, measure, callback) => {
@@ -68,17 +68,41 @@ class TransitionerContent extends Component {
   }
 
   updateMeasure = async () => {
-    const { shareItem } = this.state
+    const { shareItem, shareView } = this.state
+    
     const { props } = this.props
     const { scene } = props
-    const newShareItem = await shareItem.map(async item => {
-      if (item.index === scene.index) {
+    const newShareItem = await Promise.all (shareItem.map(async item => {
+      if (item.index === scene.index - 1 || item.index === scene.index || item.index === scene.index + 1) {
         const measure = await measureNode(item.nodeHandle)
         return { ...item, measure }
       }
       return item
-    })
-    this.setState({ shareItem: newShareItem })
+    }))
+    const newShareView = await Promise.all(
+      shareView.map(async item => {
+        if (item.fromIndex === scene.index - 1 || item.fromIndex === scene.index || item.fromIndex === scene.index + 1) {
+          const indexFrom = _.findIndex(newShareItem, i => i.index ===item.fromIndex && i.name === item.fromItem.name)
+          let newfrom = item.fromItem
+          if (indexFrom >= 0) {
+            newfrom = newShareItem[indexFrom]
+          }
+          const indexTo = _.findIndex(newShareItem, i => i.index ===item.toItem.index && i.name === item.toItem.name)
+          let newTo = item.toItem
+          if (indexTo >= 0) {
+            newTo = newShareItem[indexTo]
+          }
+          return {...item, fromItem: newfrom, toItem: newTo}
+        }
+        else return item
+      })
+    )
+    this.setState({ shareItem: newShareItem, shareView: newShareView })
+      return new Promise((resole, reject) => {
+        setTimeout(() => {
+          return resole(true)
+        }, 0)
+      })
   }
 
   test = () => {
@@ -104,8 +128,9 @@ class TransitionerContent extends Component {
 
   render() {
     const { props, preProps } = this.props
-    const { shareItem } = this.state
-    console.log("TCL: TransitionerContent -> render -> shareView", shareItem)
+    const { shareItem, shareView } = this.state
+    // console.log("TCL: render -> shareView", shareView)
+    // console.log("TCL: TransitionerContent -> render -> shareView", shareItem)
     const screnes = props.scenes.map(scene => this.RenderScreen({ ...props, scene }))
     return <View style={{ flex: 1 }}>{screnes}</View>
   }

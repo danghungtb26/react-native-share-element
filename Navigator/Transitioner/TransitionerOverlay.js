@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Text, View, Animated, UIManager, StyleSheet } from 'react-native'
+import _ from 'lodash'
 import Proptypes from 'prop-types'
 import { measureNode } from './util'
 
@@ -14,28 +15,35 @@ class TransitionerOverlay extends Component {
     this.state = {
       fromItem: undefined,
       toItem: undefined,
-      animation: new Animated.Value(),
+      animation: props.animation,
       fromIndex: undefined,
     }
     this.checkAnimation = true
+    const { fromItem, toItem, fromIndex, animation } = props
+    const opacity = animation.interpolate({
+      inputRange: [fromIndex, fromIndex + 0.0001, fromIndex + 1],
+      outputRange: [1, 0, 0],
+      extrapolate: 'clamp',
+    })
+    fromItem.callback(opacity)
   }
 
-  static getDerivedStateFromProps(props, state) {
-    const { fromItem, toItem, fromIndex, animation } = props
-    // animation.stopAnimation()
-    if (!state.fromItem) {
-      if (fromItem) {
-        const opacity = animation.interpolate({
-          inputRange: [fromIndex, fromIndex + Number.EPSILON, fromIndex + 1],
-          outputRange: [1, 0, 0],
-          extrapolate: 'clamp',
-        })
-        fromItem.callback(opacity)
-      }
-      return { fromItem, toItem, fromIndex, animation }
-    }
-    return {}
-  }
+  // static getDerivedStateFromProps(props, state) {
+  //   const { fromItem, toItem, fromIndex, animation } = props
+  //   // animation.stopAnimation()
+  //   if (!state.fromItem) {
+  //     if (fromItem) {
+  //       const opacity = animation.interpolate({
+  //         inputRange: [fromIndex, fromIndex + 0.0001, fromIndex + 1],
+  //         outputRange: [1, 0, 0],
+  //         extrapolate: 'clamp',
+  //       })
+  //       fromItem.callback(opacity)
+  //     }
+  //     return { fromItem, toItem, fromIndex, animation }
+  //   }
+  //   return {}
+  // }
 
   // componentDidMount() {
   //   const { animation, fromIndex } = this.state
@@ -70,15 +78,17 @@ class TransitionerOverlay extends Component {
   }
 
   reSetToItem = async callback => {
-    const { toItem } = this.state
-    const { nodeHandle } = toItem
-    const measure = await measureNode(nodeHandle)
-    console.log("TCL: TransitionerOverlay -> measure", measure)
-    this.setState({ toItem: { ...toItem, measure } }, callback)
+    // const { toItem } = this.state
+    // const { nodeHandle } = toItem
+    // const measure = await measureNode(nodeHandle)
+    // // console.log("TCL: TransitionerOverlay -> measure", measure)
+    // this.setState({ toItem: { ...toItem, measure } }, callback)
+    callback()
   }
 
   render() {
-    const { fromItem, fromIndex, toItem, animation } = this.state
+    const { animation } = this.state
+    const { fromItem, fromIndex, toItem } = this.props
     if (!fromItem || !toItem) return null
     const inputRange = [fromIndex, fromIndex + 1]
     const fontSize = animation.interpolate({

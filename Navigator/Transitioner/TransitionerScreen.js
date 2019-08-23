@@ -51,14 +51,15 @@ class TransitionerScreen extends Component {
   }
 
   onReSetMeasure = callback => {
-    this.refOverlay.forEach(item => {
-      if (item) {
-        if (item.reSetToItem) {
-          item.reSetToItem()
-        }
-      }
-    })
-    setTimeout(() => callback(), 30)
+    // this.refOverlay.forEach(item => {
+    //   if (item) {
+    //     if (item.reSetToItem) {
+    //       item.reSetToItem()
+    //     }
+    //   }
+    // })
+    // setTimeout(() => callback(), 30)
+    callback()
   }
 
   onSetRef = (e, index) => {
@@ -80,9 +81,9 @@ class TransitionerScreen extends Component {
   render() {
     const { position, scene, screenProps, shareView } = this.props
     const { index } = scene
-    const share = shareView.map((item, index) => this.RenderOverlay(item, index))
+    const share = shareView.map((item, i) => this.RenderOverlay(item, i))
     const opacity = position.interpolate({
-      inputRange: [index - 1, index - Number.EPSILON, index],
+      inputRange: [index - 1, index - 0.00001, index],
       outputRange: [0, 0, 1],
       extrapolate: 'clamp',
     })

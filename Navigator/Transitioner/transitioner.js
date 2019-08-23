@@ -16,11 +16,15 @@ class CustomTransformer extends React.Component {
     }
   }
 
-  onTransitionStart = async () => {
+  onTransitionStart = async (props, preProps) => {
+    console.log("TCL: CustomTransformer -> onTransitionStart -> preProps", preProps)
+    console.log("TCL: CustomTransformer -> onTransitionStart -> props", props)
     // console.log('object')
-    console.log(this.content)
-    const a = await this.content.test()
+    // console.log(this.content)
+    const a = await this.content.updateMeasure()
     console.log("TCL: CustomTransformer -> onTransitionStart -> a", a)
+    // console.log("TCL: CustomTransformer -> onTransitionStart -> a", a)
+    return a
     
   }
 
@@ -28,7 +32,7 @@ class CustomTransformer extends React.Component {
     const { screenProps } = this.props
     return (
       <TransitionerContent
-      ref={e => this.content = e}
+        ref={e => this.content = e}
         {...this.props}
         props={props}
         preProps={preProps}
