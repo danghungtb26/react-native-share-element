@@ -51,14 +51,6 @@ class TransitionerScreen extends Component {
   }
 
   onReSetMeasure = callback => {
-    // this.refOverlay.forEach(item => {
-    //   if (item) {
-    //     if (item.reSetToItem) {
-    //       item.reSetToItem()
-    //     }
-    //   }
-    // })
-    // setTimeout(() => callback(), 30)
     callback()
   }
 

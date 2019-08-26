@@ -13,10 +13,7 @@ class TransitionerOverlay extends Component {
     super(props)
     if (props.onComponentRef) props.onComponentRef(this)
     this.state = {
-      fromItem: undefined,
-      toItem: undefined,
       animation: props.animation,
-      fromIndex: undefined,
     }
     this.checkAnimation = true
     const { fromItem, toItem, fromIndex, animation } = props
@@ -27,49 +24,6 @@ class TransitionerOverlay extends Component {
     })
     fromItem.callback(opacity)
   }
-
-  // static getDerivedStateFromProps(props, state) {
-  //   const { fromItem, toItem, fromIndex, animation } = props
-  //   // animation.stopAnimation()
-  //   if (!state.fromItem) {
-  //     if (fromItem) {
-  //       const opacity = animation.interpolate({
-  //         inputRange: [fromIndex, fromIndex + 0.0001, fromIndex + 1],
-  //         outputRange: [1, 0, 0],
-  //         extrapolate: 'clamp',
-  //       })
-  //       fromItem.callback(opacity)
-  //     }
-  //     return { fromItem, toItem, fromIndex, animation }
-  //   }
-  //   return {}
-  // }
-
-  // componentDidMount() {
-  //   const { animation, fromIndex } = this.state
-  //   this.reSetToItem(() =>
-  //     Animated.timing(animation, {
-  //       duration: 500,
-  //       toValue: fromIndex + 1,
-  //       easing: t => t,
-  //     }).start(e => console.log(e))
-  //   )
-  // }
-
-  // componentDidUpdate(nP, pS) {
-  //   const { fromItem } = this.state
-  //   if (!pS.fromItem && fromItem !== undefined) {
-  //     const { animation, fromIndex } = this.state
-  //     console.log('object')
-  //     this.reSetToItem(() =>
-  //       Animated.timing(animation, {
-  //         duration: 500,
-  //         toValue: fromIndex + 1,
-  //         easing: t => t,
-  //       }).start()
-  //     )
-  //   }
-  // }
 
   componentWillUnmount() {
     const { fromItem, onComponentRef } = this.props

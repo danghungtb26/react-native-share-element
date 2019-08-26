@@ -17,22 +17,19 @@ class CustomTransformer extends React.Component {
   }
 
   onTransitionStart = async (props, preProps) => {
-    console.log("TCL: CustomTransformer -> onTransitionStart -> preProps", preProps)
-    console.log("TCL: CustomTransformer -> onTransitionStart -> props", props)
-    // console.log('object')
-    // console.log(this.content)
-    const a = await this.content.updateMeasure()
-    console.log("TCL: CustomTransformer -> onTransitionStart -> a", a)
-    // console.log("TCL: CustomTransformer -> onTransitionStart -> a", a)
+    let a = await this.content.updateMeasure()
+    const { onTransitionStart } = this.props
+    if (typeof onTransitionStart === 'function') {
+      a = await onTransitionStart(props, preProps)
+    }
     return a
-    
   }
 
   renderContent = (props, preProps) => {
     const { screenProps } = this.props
     return (
       <TransitionerContent
-        ref={e => this.content = e}
+        ref={e => (this.content = e)}
         {...this.props}
         props={props}
         preProps={preProps}
@@ -42,6 +39,7 @@ class CustomTransformer extends React.Component {
   }
 
   render() {
+    console.log(this.props)
     return (
       <Transitioner
         configureTransition={this.configureTransition}
@@ -54,7 +52,9 @@ class CustomTransformer extends React.Component {
 }
 
 const createStackShared = (route, config = {}) => {
-  const router = StackRouter(route)
+  const router = StackRouter(route, config)
+  console.log('TCL: createStackShared -> router', router)
+  console.log('TCL: createStackShared -> config', config)
   return createNavigator(CustomTransformer, router, config)
 }
 
