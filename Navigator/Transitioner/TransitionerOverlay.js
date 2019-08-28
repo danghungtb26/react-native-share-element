@@ -32,17 +32,13 @@ class TransitionerOverlay extends Component {
   }
 
   reSetToItem = async callback => {
-    // const { toItem } = this.state
-    // const { nodeHandle } = toItem
-    // const measure = await measureNode(nodeHandle)
-    // // console.log("TCL: TransitionerOverlay -> measure", measure)
-    // this.setState({ toItem: { ...toItem, measure } }, callback)
     callback()
   }
 
   render() {
     const { animation } = this.state
     const { fromItem, fromIndex, toItem } = this.props
+    console.log("TCL: TransitionerOverlay -> render -> fromItem", fromItem)
     if (!fromItem || !toItem) return null
     const inputRange = [fromIndex, fromIndex + 1]
     const fontSize = animation.interpolate({
