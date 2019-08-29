@@ -18,7 +18,7 @@ class Index extends Component {
     const { name, item } = this.state
     const { screenIndex } = this.props
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, alignItems: 'flex-start', flexDirection: 'row' }}>
         <ShareView screenIndex={screenIndex} name={name}>
           <Image source={item.source} style={{ width: 357, height: 200 }} />
         </ShareView>

@@ -46,6 +46,7 @@ class ShareView extends Component {
     if (!this.layouted) {
       const { name, children, screenIndex } = this.props
       const measure = await measureNode(findNodeHandle(this.view))
+      console.log('TCL: ShareView -> onLayout -> measure', measure)
       const { registerSharedView } = this.context
       if (registerSharedView)
         registerSharedView(
@@ -71,7 +72,7 @@ class ShareView extends Component {
       <Animated.View
         onLayout={this.onLayout}
         ref={this.onSetRef}
-        style={{ opacity }}
+        style={{ opacity, backgroundColor: 'red' }}
         collapsable={false}
       >
         {children}

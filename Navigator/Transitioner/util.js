@@ -9,3 +9,5 @@ export const measureNode = nativeHandle => {
 }
 
 export const aaa = () => {}
+
+export const ESP = 0.00001

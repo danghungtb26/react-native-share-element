@@ -3,6 +3,7 @@ import { Text, View, Animated, UIManager, StyleSheet } from 'react-native'
 import _ from 'lodash'
 import Proptypes from 'prop-types'
 import { measureNode } from './util'
+import { test, getStyle } from './style'
 
 export const getFontSize = element => {
   return (element.props && element.props.style.fontSize) || 12
@@ -38,7 +39,7 @@ class TransitionerOverlay extends Component {
   render() {
     const { animation } = this.state
     const { fromItem, fromIndex, toItem } = this.props
-    console.log("TCL: TransitionerOverlay -> render -> fromItem", fromItem)
+    console.log('TCL: TransitionerOverlay -> render -> fromItem', fromItem)
     if (!fromItem || !toItem) return null
     const inputRange = [fromIndex, fromIndex + 1]
     const fontSize = animation.interpolate({
@@ -67,7 +68,7 @@ class TransitionerOverlay extends Component {
       outputRange: [0, 1, 1, 0],
       extrapolate: 'clamp',
     })
-    const style = { fontSize, position: 'absolute', right: null, bottom: null, top, left, opacity }
+    const style = { position: 'absolute', right: null, bottom: null, ...getStyle(this.props) }
     const AnimatedComp = Animated.createAnimatedComponent(fromItem.children.type)
     return React.createElement(
       AnimatedComp,

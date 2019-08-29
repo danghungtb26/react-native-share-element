@@ -17,7 +17,7 @@ class Item extends Component {
   render() {
     const { item, screenIndex } = this.props
     return (
-      <View>
+      <View style={{ flex: 1, alignItems: 'flex-start', flexDirection: 'row' }}>
         <TouchableOpacity onPress={this.onPressItem}>
           <ShareView screenIndex={screenIndex} name={`image - ${item.id}`}>
             <Image source={item.source} style={{ width: 200, height: 150 }} />
