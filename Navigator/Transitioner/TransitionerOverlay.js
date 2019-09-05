@@ -37,37 +37,8 @@ class TransitionerOverlay extends Component {
   }
 
   render() {
-    const { animation } = this.state
-    const { fromItem, fromIndex, toItem } = this.props
-    console.log('TCL: TransitionerOverlay -> render -> fromItem', fromItem)
+    const { fromItem, toItem } = this.props
     if (!fromItem || !toItem) return null
-    const inputRange = [fromIndex, fromIndex + 1]
-    const fontSize = animation.interpolate({
-      inputRange,
-      outputRange: [getFontSize(fromItem.children), getFontSize(toItem.children)],
-      extrapolate: 'clamp',
-      easing: t => t,
-    })
-    const left = animation.interpolate({
-      inputRange,
-      outputRange: [fromItem.measure.pageX, toItem.measure.pageX],
-      extrapolate: 'clamp',
-    })
-    const top = animation.interpolate({
-      inputRange,
-      outputRange: [fromItem.measure.pageY, toItem.measure.pageY],
-      extrapolate: 'clamp',
-    })
-    const opacity = animation.interpolate({
-      inputRange: [
-        fromIndex,
-        fromIndex + Number.EPSILON,
-        fromIndex + 1 - Number.EPSILON,
-        fromIndex + 1,
-      ],
-      outputRange: [0, 1, 1, 0],
-      extrapolate: 'clamp',
-    })
     const style = { position: 'absolute', right: null, bottom: null, ...getStyle(this.props) }
     const AnimatedComp = Animated.createAnimatedComponent(fromItem.children.type)
     return React.createElement(

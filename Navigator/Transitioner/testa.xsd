@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf8" ?>
+<xs:schema id="QLSV">
+    <xs:element name="SV">
+        <xs:element name="MSV" type="xs:string">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:pattern value="[0-9]{7}">
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:element>
+        <xs:element name="HOTEN" type="xs:string">
+        </xs:element>
+        <xs:element name="LOP" type="xs:string">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:pattern value="CTK28|CTK28CD|CTK29|CTK29CD|CTK30|CTK30CD|CTK31|CTK31CD">
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:element>
+        <xs:element name="MONHOC">
+            <xs:complexType >
+                <xs:all>
+                    <xs:element name="MAMON" >
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:pattern value="([A-Za-z]{2}[0-9]{2})">
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="TENMON" type="xs:string"/>
+                    
+                    <xs:element name="SOTINCHI">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:integer">
+                                <xs:minIncluive value="1"/>
+                                <xs:maxIncluive value="5">
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="DIEMTHI">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:integer">
+                                <xs:minIncluive value="0"/>
+                                <xs:maxIncluive value="10">
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:element>
+                </xs:all>
+            </xs:complexType >
+        </xs:element>
+    </xs:element>
+
+</xs:schema>

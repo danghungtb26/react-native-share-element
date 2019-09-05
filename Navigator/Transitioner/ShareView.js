@@ -22,7 +22,9 @@ class ShareView extends Component {
     this.layouted = false
   }
 
-  componentDidMount() {}
+  async componentDidMount() {
+    console.log('didmout')
+  }
 
   componentWillUnmount() {
     const { unregisterSharedView } = this.context
@@ -44,9 +46,10 @@ class ShareView extends Component {
 
   onLayout = async () => {
     if (!this.layouted) {
+      console.log('onlayout')
+      this.layouted = true
       const { name, children, screenIndex } = this.props
       const measure = await measureNode(findNodeHandle(this.view))
-      console.log('TCL: ShareView -> onLayout -> measure', measure)
       const { registerSharedView } = this.context
       if (registerSharedView)
         registerSharedView(
@@ -57,7 +60,6 @@ class ShareView extends Component {
           measure,
           this.onSetOpacity
         )
-      this.layouted = true
     }
   }
 
@@ -67,16 +69,19 @@ class ShareView extends Component {
 
   render() {
     const { opacity } = this.state
-    const { children } = this.props
+    const { children, style = {} } = this.props
+    const { alignItems = 'flex-start', ...restStyle } = style
     return (
-      <Animated.View
-        onLayout={this.onLayout}
-        ref={this.onSetRef}
-        style={{ opacity, backgroundColor: 'red' }}
-        collapsable={false}
-      >
-        {children}
-      </Animated.View>
+      <View style={{ alignItems, ...restStyle }} {...this.props}>
+        <Animated.View
+          onLayout={this.onLayout}
+          ref={this.onSetRef}
+          style={{ opacity }}
+          collapsable={false}
+        >
+          {children}
+        </Animated.View>
+      </View>
     )
   }
 }

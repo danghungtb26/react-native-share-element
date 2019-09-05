@@ -1,16 +1,14 @@
 import React, { Component } from 'react'
-import { View, Animated } from 'react-native'
+import { Text, View, Animated } from 'react-native'
 import Proptypes from 'prop-types'
 import { PanGestureHandler } from 'react-native-gesture-handler'
 import ScreenView from './ScreenView'
-import TransitionerOverlay from './TransitionerOverlay'
-import TransitionCard from './TransitionCard'
 
-class TransitionerScreen extends Component {
+class TransitionCard extends Component {
   constructor(props) {
     super(props)
+    console.log('TCL: TransitionCard -> constructor -> props', props)
     this.state = {}
-    this.a = new Animated.Value(0)
     this.panGestureRef = React.createRef()
     this.gestureX = new Animated.Value(0)
     this.gestureY = new Animated.Value(0)
@@ -28,24 +26,22 @@ class TransitionerScreen extends Component {
         listener: this.listener,
       }
     )
-    this.refOverlay = []
-  }
-
-  shouldComponentUpdate(nextProps) {
-    return this.props !== nextProps
+    this.position = new Animated.Value(0)
+    const { position, layout } = props
+    this.position = Animated.subtract(position, Animated.divide(this.gestureX, 375))
   }
 
   handlePanGestureStateChange = e => {
     const { oldState } = e.nativeEvent
     if (oldState === 4) {
-      const { translationY } = e.nativeEvent
-      if (Math.abs(translationY) > 150) {
+      const { translationX } = e.nativeEvent
+      if (Math.abs(translationX) > 150) {
         const { scene } = this.props
         if (scene.index > 0) {
-          this.onReSetMeasure(() => scene.descriptor.navigation.goBack())
+          scene.descriptor.navigation.goBack()
         }
       } else {
-        Animated.timing(this.gestureY, {
+        Animated.timing(this.gestureX, {
           toValue: 0,
           duration: 100,
           easing: t => t,
@@ -54,38 +50,17 @@ class TransitionerScreen extends Component {
     }
   }
 
-  onReSetMeasure = callback => {
-    callback()
-  }
-
-  onSetRef = (e, index) => {
-    this.refOverlay[index] = e
-  }
-
-  RenderOverlay = (props, index) => {
-    const { position } = this.props
-    return (
-      <TransitionerOverlay
-        onComponentRef={e => this.onSetRef(e, index)}
-        key={index}
-        animation={position}
-        {...props}
-      />
-    )
-  }
+  listener = e => console.log(e)
 
   render() {
-    const { position, scene, screenProps, shareView } = this.props
+    const { position, scene, screenProps, layout } = this.props
     const { index } = scene
-    const share = shareView.map((item, i) => this.RenderOverlay(item, i))
-    const opacity = position.interpolate({
-      inputRange: [index - 1, index - 0.00001, index],
-      outputRange: [0, 0, 1],
-      extrapolate: 'clamp',
+    const left = this.position.interpolate({
+      inputRange: [index - 1, index, index + 1],
+      outputRange: [375, 0, -50],
     })
-    const style = { opacity }
     return (
-      <View
+      <Animated.View
         style={{
           position: 'absolute',
           top: 0,
@@ -94,7 +69,6 @@ class TransitionerScreen extends Component {
           bottom: 0,
         }}
       >
-        {share}
         <PanGestureHandler
           ref={this.panGestureRef}
           onGestureEvent={this.gestureEvent}
@@ -105,12 +79,12 @@ class TransitionerScreen extends Component {
             style={{
               position: 'absolute',
               top: 0,
-              left: 0,
+              left,
               right: 0,
               bottom: 0,
               backgroundColor: '#fff',
-              ...style,
-              transform: [{ translateY: this.gestureY }],
+              //   opacity,
+              transform: [{ translateX: this.gestureX }],
             }}
           >
             <ScreenView
@@ -121,11 +95,11 @@ class TransitionerScreen extends Component {
             />
           </Animated.View>
         </PanGestureHandler>
-      </View>
+      </Animated.View>
     )
   }
 }
 
-TransitionerScreen.propTypes = {}
+TransitionCard.propTypes = {}
 
-export default TransitionerScreen
+export default TransitionCard

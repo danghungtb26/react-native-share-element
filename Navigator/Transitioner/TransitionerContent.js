@@ -28,7 +28,7 @@ class TransitionerContent extends Component {
 
   registerSharedView = async (name, index, nodeHandle, children, measure, callback) => {
     const newShareItem = { name, index, nodeHandle, children, callback, measure }
-    const { shareItem, shareView } = this.state
+    const { shareItem } = this.state
     const checkIndexShareView = _.findIndex(
       shareItem,
       i => i.index === index - 1 && i.name === name
@@ -41,10 +41,10 @@ class TransitionerContent extends Component {
         toItem: newShareItem,
       }
     }
-    this.setState({
-      shareItem: [...shareItem, newShareItem],
-      shareView: newShareView !== undefined ? [...shareView, newShareView] : shareView,
-    })
+    this.setState(state => ({
+      shareItem: [...state.shareItem, newShareItem],
+      shareView: newShareView !== undefined ? [...state.shareView, newShareView] : state.shareView,
+    }))
   }
 
   unregisterSharedView = (name, index, nodeHandle) => {
@@ -63,7 +63,7 @@ class TransitionerContent extends Component {
 
   updateMeasure = async () => {
     const { shareItem, shareView } = this.state
-
+    console.log('object')
     const { props } = this.props
     const { scene } = props
     const newShareItem = await Promise.all(
@@ -138,6 +138,7 @@ class TransitionerContent extends Component {
 
   render() {
     const { props } = this.props
+    const { shareView } = this.state
     const screnes = props.scenes.map(scene => this.RenderScreen({ ...props, scene }))
     return <View style={{ flex: 1 }}>{screnes}</View>
   }

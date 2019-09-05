@@ -12,7 +12,7 @@ class CustomTransformer extends React.Component {
 
   configureTransition = () => {
     return {
-      duration: 500,
+      duration: 400,
     }
   }
 
@@ -39,7 +39,6 @@ class CustomTransformer extends React.Component {
   }
 
   render() {
-    console.log(this.props)
     return (
       <Transitioner
         configureTransition={this.configureTransition}

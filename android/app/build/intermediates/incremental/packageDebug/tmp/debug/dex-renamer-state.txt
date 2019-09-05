@@ -1,4 +1,0 @@
-#Fri Aug 16 09:33:15 ICT 2019
-base.0=/Users/mac/Desktop/RN/NewProject/android/app/build/intermediates/transforms/dexMerger/debug/0
-path.0=classes.dex
-renamed.0=classes.dex

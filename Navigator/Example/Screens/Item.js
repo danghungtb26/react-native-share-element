@@ -17,13 +17,16 @@ class Item extends Component {
   render() {
     const { item, screenIndex } = this.props
     return (
-      <View style={{ flex: 1, alignItems: 'flex-start', flexDirection: 'row' }}>
-        <TouchableOpacity onPress={this.onPressItem}>
+      <TouchableOpacity onPress={this.onPressItem}>
+        <View style={{ flexDirection: 'row' }}>
           <ShareView screenIndex={screenIndex} name={`image - ${item.id}`}>
             <Image source={item.source} style={{ width: 200, height: 150 }} />
           </ShareView>
-        </TouchableOpacity>
-      </View>
+          <ShareView screenIndex={screenIndex} name={`text-image - ${item.id}`}>
+            <Text style={{ fontSize: 15 }}>abcxyz</Text>
+          </ShareView>
+        </View>
+      </TouchableOpacity>
     )
   }
 }

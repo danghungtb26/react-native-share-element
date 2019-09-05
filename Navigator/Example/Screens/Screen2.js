@@ -22,11 +22,13 @@ class Screen2 extends Component {
   render() {
     const { screenIndex } = this.props
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'red' }}>
+      <View
+        style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'red' }}
+      >
         <TouchableOpacity activeOpacity={1} onPress={this.goBack}>
-          {/* <ShareView name="back" screenIndex={screenIndex}> */}
+          <ShareView name="back" screenIndex={screenIndex}>
             <Text style={{ marginBottom: 200, fontSize: 15 }}> back </Text>
-          {/* </ShareView> */}
+          </ShareView>
         </TouchableOpacity>
         <TouchableOpacity activeOpacity={1} onPress={this.nextSceen}>
           <ShareView name="text" screenIndex={screenIndex}>

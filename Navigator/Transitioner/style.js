@@ -10,7 +10,8 @@ export const getFontSize = element => {
 }
 
 export const getTypeElement = element => {
-  return element.type
+  console.log('TCL: element', element)
+  return element.type.displayName
 }
 
 export const type = {
@@ -35,7 +36,6 @@ export const getFontSizeAnimate = shareView => {
 }
 
 export const getSizeAnimate = shareView => {
-  console.log('TCL: shareView', shareView)
   const { fromIndex, fromItem, toItem, animation = new Animated.Value(0) } = shareView
   const inputRange = [fromIndex, fromIndex + 1]
   const height = animation.interpolate({
